@@ -2,7 +2,7 @@ import random
 import copy
 import matplotlib.pyplot as plt
 import pytest
-import seaborn as sns
+#import seaborn as sns
 import numpy as np
 
 # --- 8-Puzzle Visualization ---
@@ -24,7 +24,7 @@ def visualize_8_puzzle(board, cost, stuck=False, won=False):
     if stuck:
         title = "STUCK! "
     elif won:
-        title = "YOU WON! "
+        title = "SOLVED! "
     plt.title(title + "8-Puzzle Configuration Cost: " + str(cost))
     plt.gca().invert_yaxis()
     plt.show()
@@ -55,7 +55,7 @@ def puzzle_heuristic(state):
 #Q1-2: A function to generate all valid neighbor states from the current configuration.
 def get_valid_neighbor_states(state) :
     #print("getting neighbors for state:", state)
-    neighbors = list()
+    neighbors = []
     row, col = next((r, c) for r in range(3) for c in range(3) if state[r][c] == 0)
     possible_moves = [(row + dr, col + dc) for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]]
     valid_moves = [(r, c) for r, c in possible_moves if 0 <= r < 3 and 0 <= c < 3]
@@ -74,12 +74,13 @@ def take_one_step(state):
     # get any neighbor states.
     neighbors = get_valid_neighbor_states(state)
     #print('neighbors: ', neighbors)
-    neighbors_by_misplaced_score = dict()
+    neighbors_by_misplaced_score = {}
     # for each neighbor add it to a list in the dict keyed by misplace tile score.
     for n in neighbors :
         if n != state :
             misplaced = puzzle_heuristic(n)
-            # if the misplaced tile score is greater than current, throw it out, we are hill climbing.
+            # if the misplaced tile score is greater than current,
+            # throw it out, we are hill climbing.
             if misplaced < current_misplaced :
                 # add the neighbor state with a matching or lower misplace score to the list for this score.
                 neighbors_by_misplaced_score.setdefault(misplaced, []).append(n)
@@ -89,7 +90,6 @@ def take_one_step(state):
         sorted_neighbors = dict(sorted(neighbors_by_misplaced_score.items()))
         # pick a random state from the list of neighbor states with the lowest misplaced tile score.
         low_score = next(iter(sorted_neighbors))
-        #print("randomly picking from low score neighbor states: ", neighbors_by_misplaced_score.get(low_score))
         return random.choice(neighbors_by_misplaced_score.get(low_score))
     raise Exception("Stuck at local min!")
 
@@ -113,10 +113,10 @@ one_off = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 three_off = [[1, 5, 3], [4, 0, 6], [7, 2, 8]]
 gets_stuck = [[1, 0, 5], [7, 3, 2], [8, 4, 6]]
 
-# Run with easy win!
+# Q2-1 & Q2-2 Run with easy solve!
 hill_climbing_puzzle([[1, 5, 2], [4, 0, 3], [7, 8, 6]])
 
-# Run that gets stuck
+# Q2-2 Run that gets stuck at local min
 hill_climbing_puzzle(three_off)
 
 # Run with random initial puzzle.
@@ -124,7 +124,8 @@ initial_puzzle = generate_8_puzzle_instance()
 print(f"Initial 8-Puzzle: {initial_puzzle}")
 hill_climbing_puzzle(initial_puzzle)
 
-# --- Unit Tests ---
+
+# --- Unit Tests because I love them ---
 
 def test_puzzle_heuristic():
     assert puzzle_heuristic(goal_state) == 0
