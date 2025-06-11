@@ -83,7 +83,7 @@ def take_one_step(state):
             if misplaced < current_misplaced :
                 # add the neighbor state with a matching or lower misplace score to the list for this score.
                 neighbors_by_misplaced_score.setdefault(misplaced, []).append(n)
-    print("Neighbors by Misplaced scores", neighbors_by_misplaced_score)
+    #print("Neighbors by Misplaced scores", neighbors_by_misplaced_score)
     if len(neighbors_by_misplaced_score) > 0 :
         # resort dict so low score is first
         sorted_neighbors = dict(sorted(neighbors_by_misplaced_score.items()))
@@ -111,6 +111,7 @@ def hill_climbing_puzzle(state):
 
 one_off = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 three_off = [[1, 5, 3], [4, 0, 6], [7, 2, 8]]
+gets_stuck = [[1, 0, 5], [7, 3, 2], [8, 4, 6]]
 
 # Run with easy win!
 hill_climbing_puzzle([[1, 5, 2], [4, 0, 3], [7, 8, 6]])
@@ -143,5 +144,5 @@ def test_get_valid_neighbor_states():
     #print(f"three off neighbors: {neighbors}")
     assert len(neighbors) == 4
 
-def test_climb_one_step():
-    with pytest.raises(Exception): (gets_stuck)
+def test_take_one_step():
+    with pytest.raises(Exception): take_one_step(gets_stuck)
