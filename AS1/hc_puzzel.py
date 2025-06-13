@@ -65,15 +65,13 @@ def get_valid_neighbor_states(state) :
         #print("appended neighbor:", neighbors)
     return neighbors
 
-#Q1-3 - take a step down the hill by checking the count of misplaced tiles for each neighbor state
-# and picking the first one with a lower value if available.
+#Q1-3 take a step down the hill
 def take_one_step(state):
     # get the current misplaced tiles score.
     current_misplaced = puzzle_heuristic(state)
     # get any neighbor states.
     neighbors = get_valid_neighbor_states(state)
-    neighbors_by_misplaced_score = {}
-    # for each neighbor add it to a list in the dict keyed by misplace tile score.
+    # check each neighbor and step to it if it has a lower misplaced tile score.
     for n in neighbors :
         if n != state :
             misplaced = puzzle_heuristic(n)
@@ -112,7 +110,9 @@ def take_one_step_steepest(state):
         return random.choice(neighbors_by_misplaced_score.get(low_score))
     raise Exception("Stuck at local min!")
 
-#Q1-4 - visualize the state after each step.
+#Q1-3 - take a step down the hill by checking the count of misplaced tiles for each neighbor state
+# and picking the first one with a lower value if available.
+# Q1-4 - visualize the state after each step.
 def hill_climbing_puzzle(state):
     print(f"Hill Climbing with Initial 8-Puzzle: {state}")
     visualize_8_puzzle(state, 0)
