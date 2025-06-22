@@ -1,5 +1,3 @@
-from numpy.f2py.auxfuncs import throw_error
-
 from chromosome import *
 import matplotlib.pyplot as plt
 from numpy.ma.extras import average
