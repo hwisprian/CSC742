@@ -1,5 +1,3 @@
-from numpy.f2py.auxfuncs import throw_error
-
 from chromosome import *
 import matplotlib.pyplot as plt
 from numpy.ma.extras import average
@@ -28,10 +26,12 @@ def selection(generation, fitness):
     min_fitness = min(fitness)
     # we have to worry about min fitness being negative to calculate probability :grimace:
     adjusted_fitness = []
-    for fit in fitness:
-        if min_fitness <= 0:
+    if min_fitness <= 0:
+        # adjust to positive values for more accurate probabilities
+        for fit in fitness:
             adjusted_fitness.append(fit + abs(min_fitness))
-        else:
+    else:
+        for fit in fitness:
             adjusted_fitness.append(fit)
     total_fitness = sum(adjusted_fitness)
 
@@ -46,15 +46,15 @@ def selection(generation, fitness):
 #Q3.2 and 3.3 see chromosome.py
 
 #Q4.1 Genetic Algorithm Execution
-def run_genetic_algorithm(population_size, number_generations):
+def run_genetic_algorithm(population_size, number_generations, dejong_function, number_of_bits, number_of_variables):
     # init a bunch of things.
-    parent_generation = initialize_population(population_size, 8, 2)
+    parent_generation = initialize_population(population_size, number_of_bits, number_of_variables)
     # plot points is an array lists of points to plot
     #   first list is the best fitness for the generation
     #   second list is the average fitness for the generation
     plot_points = [[],[]]
 
-    parent_fitness = get_fitness(parent_generation)
+    parent_fitness = get_fitness(parent_generation, dejong_function)
     # best this generation
     prev_best_fitness = min(parent_fitness)
     prev_best_chromosome = parent_generation[parent_fitness.index(prev_best_fitness)]
@@ -62,8 +62,8 @@ def run_genetic_algorithm(population_size, number_generations):
     # loop through reproduction (selection, crossover, mutation)
     try:
         for i in range(number_generations):
-            children = reproduce(i + 1, parent_generation, parent_fitness)
-            child_fitness = get_fitness(children)
+            children = reproduce(i, parent_generation, parent_fitness)
+            child_fitness = get_fitness(children, dejong_function)
             best_fitness = min(child_fitness)
             # graph the best and average fitness per generation for each function
             best_chromosome = children[child_fitness.index(best_fitness)]
@@ -78,9 +78,9 @@ def run_genetic_algorithm(population_size, number_generations):
             parent_fitness = child_fitness
     except ConvergenceException:
         print("Convergence...")
-    plot_fitness(population_size, number_generations, prev_best_chromosome, plot_points)
+    plot_fitness(population_size, number_generations, dejong_function, prev_best_chromosome, number_of_variables, plot_points)
 
-def get_fitness(generation):
+def get_fitness(generation, function):
     if function == 'f1':
         return [chrom.sphere_model_fitness() for chrom in generation]
     if function == 'f2':
@@ -105,11 +105,11 @@ def reproduce(gen_num, parent_generation, fitness):
     return children
 
 #Q4.2 Plot best fitness and average fitness per generation for each function
-def plot_fitness(population_size, number_generations, best_chromosome, plot_points):
+def plot_fitness(population_size, number_generations, dejong_function, best_chromosome, number_of_variables, plot_points):
     xdata = list(range(len(plot_points[0])))
     # Create the plot
-    plt.scatter(xdata, plot_points[0], color='red', label='best fitness', marker='+')
-    plt.scatter(xdata, plot_points[1], color='green',  label='avg fitness', marker='.')
+    plt.plot(xdata, plot_points[0], color='red', label='best fitness', marker='+')
+    plt.plot(xdata, plot_points[1], color='green',  label='avg fitness', marker='.')
     plt.scatter(best_chromosome.generation, best_chromosome.fitness, color='blue', label='best solution', marker='x')
 
     plt.legend(loc='best', fancybox=True, shadow=True, fontsize='small')
@@ -117,9 +117,9 @@ def plot_fitness(population_size, number_generations, best_chromosome, plot_poin
     # Add labels and title
     plt.xlabel("Generation")
     plt.ylabel("Fitness (y)")
-    plt.suptitle(f"Plot of {number_generations} Generations using {function}", fontsize=14)
-    plt.title(f"Pop: {population_size}, Best Solution {best_chromosome}", fontsize=10)
-
+    plt.title(f"Plot of Pop size {population_size} for {number_generations} Generations using {dejong_function} with {number_of_variables} vars")
+    plt.figtext( .5, 0, f"Best Solution: {best_chromosome}", ha="center", va="bottom", fontsize=10)
+    plt.subplots_adjust(bottom=0.2)  # Adjust bottom margin to make space
 
     # Display the plot
     plt.show()
@@ -129,10 +129,14 @@ def plot_fitness(population_size, number_generations, best_chromosome, plot_poin
 #################################################################
 #                   Q4.1 Run with population size and generations
 ###################################################################
-number_of_variables = 4
-number_of_bits = 16
-function = 'f4'
-run_genetic_algorithm(50, 50)
+
+run_genetic_algorithm(20, 50, 'f1', 8, 2)
+
+run_genetic_algorithm(20, 50, 'f2', 16, 3)
+
+run_genetic_algorithm(30, 50, 'f3', 8, 4)
+
+run_genetic_algorithm(50, 50, 'f4', 8, 4)
 
 ##################################################################################################
 # --- Unit Tests are good for you ------------------------

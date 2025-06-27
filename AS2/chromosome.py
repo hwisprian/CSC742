@@ -1,4 +1,3 @@
-
 import copy
 import math
 import random
@@ -39,12 +38,14 @@ class Chromosome:
             self.binary_string_length = len(strings_in[0])
 
     def __str__(self):
-        string = '('
+        string = 'Chromosome ('
         for i in range(len(self.binary_strings)):
             if i > 0:
                 string += ", "
+            if i > 0 and i % 2 == 0:
+                string += "\n"
             string += "x" + str(i+1) + "=" + self.binary_strings[i]
-        string += ") gen: " + str(self.generation) + " fit: " + str(self.fitness)
+        string += ")\n gen: " + str(self.generation) + " fitness: " + str(self.fitness)
         return string
 
     # precision given the upper and lower bound and binary string length we are decoding.
@@ -160,6 +161,11 @@ chromosome8 = Chromosome(["11010101"])
 chromosome8_random = Chromosome(None)
 chromosome16_zero= Chromosome(["0000000000000000", "0000000000000000"], string_length=16)
 chromosome16_one = Chromosome(["1111111111111111", "1111111111111111"], string_length=16)
+
+def test_str():
+    assert chromosome8.__str__() == "Chromosome (x1=11010101) gen: 0 fit: 0"
+    assert chromosome16_zero.__str__() == "Chromosome (x1=0000000000000000, x2=0000000000000000) gen: 0 fit: 0"
+    assert chromosome16_one.__str__() == "Chromosome (x1=1111111111111111, x2=1111111111111111) gen: 0 fit: 0"
 
 def test_get_precision():
     assert chromosome.get_precision(0, 15) == 1
