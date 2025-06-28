@@ -1,5 +1,6 @@
 # CSC742
-my csc 742 homework.
+My CSC 742 homework.
+
 I have 25 years experience as a java programmer, but I'm new to Python. My code may not look "pythonic" Code reviews are welcome :) Thanks!
 
 ## AS1
