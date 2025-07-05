@@ -10,3 +10,7 @@ I have 25 years experience as a java programmer, but I'm new to Python. My code 
 ## AS2
 * chromosome.py - my chromosome to hold binary codes, calculate fitness with various algorithms for selection, perform crossover, perform mutation, allow for different number of variables based on the run I've started.
 * main.py - run reproduction over chromosomes for a number of population and number of generations. perform roulette wheel selection for inverted fitness score handling negatives.
+
+## AS3
+* chromosome.py - my chromosome to hold items packing into boxes, calculate fitness with various algorithms for tournament selection with constraints, perform crossover, perform mutation, allow for different number of variables based on the run I've started.
+* main.py - run reproduction over chromosomes for a number of population and number of generations. 
