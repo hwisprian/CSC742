@@ -11,7 +11,7 @@ MIN_ITEM_WEIGHT = 0.1  # avoid exact 0 for realism
 ############################################################################################################
 #                                   Problem domain
 ##########################################################################################################
-# An item with a weight.
+# An item with a weight and a box assignment
 class Item:
     def __init__(self, id_in, box_id_in, weight_in):
         # create a new box assign the id and an item.
@@ -22,7 +22,7 @@ class Item:
     def __repr__(self):
         return f"Item(box_id={self.box_id}, weight={self.weight}) \n"
 
-# a chromosome that has  a list of bin or box ids
+# a chromosome that has a list of items that know what box they are packed in.
 class Chromosome:
     # takes a list of item_weights and / or order count.
     # if item_weights is none it will generate random items.
@@ -38,6 +38,7 @@ class Chromosome:
                 f"generation={self.generation}, bin_assignments={self.bin_assignments()})")
                 #f"generation={self.generation}, items={sorted(self.items, key=lambda i: i.box_id)})")
 
+    # Q 1.4 a function to generate a random population
     def randomly_assign_items_to_bins(self, item_weights):
         # loop through the items and put them in a box.
         # worst case we will get 1 item per box
@@ -49,6 +50,7 @@ class Chromosome:
             self.items.append(item)
             item_id += 1
 
+    # Q 3.4.3 ensure gene only holds integer values....
     def bin_assignments(self):
         return [item.box_id for item in self.items]
 
@@ -134,7 +136,7 @@ class Chromosome:
                 if item.box_id != new_box_id:
                     item.box_id = new_box_id
 
-# Q1.4 Function to generate random initial population of items by their weights
+# Q 1.4 Function to generate random initial population of items by their weights
 # their weight being a random number between min and max weights
 def generate_random_item_weights(num_items):
     return [round(random.uniform(MIN_ITEM_WEIGHT, MAX_ITEM_WEIGHT), 1) for _ in range(num_items)]
@@ -146,13 +148,14 @@ def generate_initial_population(pop_size, num_items):
         population.append(Chromosome(num_items))
     return population
 
-# Q3 Genetic Algorithm.
-
-# Q3.1
+################################################################################################
+#                            Q 3 Genetic Algorithm.
+##############################################################################################
+# Q 3.1 Tournament Selection
 def tournament_selection(parent_1, parent_2):
     # Q3.2 if both are feasible / constraint violation matches
     if parent_1.get_constraint_violation() == parent_2.get_constraint_violation():
-        # return the chromosome with best fitness.
+        # return the chromosome with the best fitness.
         if parent_1.fitness() < parent_2.fitness():
             return parent_1
         else:
@@ -184,6 +187,7 @@ def run_genetic_algorithm(number_generations=50, population=20, number_orders=10
     for i in range(number_generations):
         generation = reproduce(generation, crossover_points, i)
         # Q 4.3 plot the best and average fitness
+        # only consider solutions that do not violate constraints!!!
         generation_fitness = [chrom.fitness() for chrom in generation if chrom.get_constraint_violation() == 0]
         try:
             best_chromosome = min(
@@ -307,6 +311,12 @@ def test_tournament_selection():
         item.weight += MAX_BOX_WEIGHT
     assert tournament_selection(chrom_5, chrom_3) == chrom_5
     assert tournament_selection(chrom_3, chrom_5) == chrom_5
+
+    # put all boxes over weight limit.
+    for item in chrom_5.items:
+        item.weight += MAX_BOX_WEIGHT
+    assert tournament_selection(chrom_5, chrom_3) == chrom_3
+    assert tournament_selection(chrom_3, chrom_5) == chrom_3
 
 def test_crossover():
     test_chrom = copy.deepcopy(chrom_5)
