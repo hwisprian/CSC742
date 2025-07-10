@@ -55,16 +55,17 @@ def puzzle_heuristic(state):
 
 # Q1-2: A function to generate all valid neighbor states from the current configuration.
 def get_valid_neighbor_states(state):
-    #print("getting neighbors for state:", state)
+    # print("getting neighbors for state:", state)
     neighbors = []
     row, col = next((r, c) for r in range(3) for c in range(3) if state[r][c] == 0)
     possible_moves = [(row + dr, col + dc) for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]]
     valid_moves = [(r, c) for r, c in possible_moves if 0 <= r < 3 and 0 <= c < 3]
     for (new_row, new_col) in valid_moves:
         neighbor_state = copy.deepcopy(state)
-        neighbor_state[row][col], neighbor_state[new_row][new_col] = neighbor_state[new_row][new_col], neighbor_state[row][col]
+        neighbor_state[row][col], neighbor_state[new_row][new_col] = (
+            neighbor_state[new_row][new_col], neighbor_state[row][col])
         neighbors.append(neighbor_state)
-        #print("appended neighbor:", neighbors)
+        # print("appended neighbor:", neighbors)
     return neighbors
 
 
@@ -75,13 +76,13 @@ def take_one_step(state):
     # get any neighbor states.
     neighbors = get_valid_neighbor_states(state)
     # check each neighbor and step to it if it has a lower misplaced tile score.
-    for n in neighbors :
-        if n != state :
+    for n in neighbors:
+        if n != state:
             misplaced = puzzle_heuristic(n)
             # if the misplaced tile score is greater than current,
             # throw it out, we are hill climbing.
             print("neighbor:", n, "misplaced tiles:", misplaced)
-            if misplaced < current_misplaced :
+            if misplaced < current_misplaced:
                 return n
     raise Exception("Stuck at local min!")
 
@@ -97,16 +98,16 @@ def take_one_step_steepest(state):
     neighbors = get_valid_neighbor_states(state)
     neighbors_by_misplaced_score = {}
     # for each neighbor add it to a list in the dict keyed by misplace tile score.
-    for n in neighbors :
-        if n != state :
+    for n in neighbors:
+        if n != state:
             misplaced = puzzle_heuristic(n)
             # if the misplaced tile score is greater than current,
             # throw it out, we are hill climbing.
-            if misplaced < current_misplaced :
+            if misplaced < current_misplaced:
                 # add the neighbor state with a matching or lower misplace score to the list for this score.
                 neighbors_by_misplaced_score.setdefault(misplaced, []).append(n)
     print("Neighbors by Misplaced scores", neighbors_by_misplaced_score)
-    if len(neighbors_by_misplaced_score) > 0 :
+    if len(neighbors_by_misplaced_score) > 0:
         # resort dict so low score is first
         sorted_neighbors = dict(sorted(neighbors_by_misplaced_score.items()))
         # pick a random state from the list of neighbor states with the lowest misplaced tile score.
@@ -133,6 +134,7 @@ def hill_climbing_puzzle(state):
             visualize_8_puzzle(state, i, True, state == goal_state)
             break
 
+
 # --- Running and Visualizing 8-Puzzle ---
 one_off = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 three_off = [[1, 5, 3], [4, 0, 6], [7, 2, 8]]
@@ -153,4 +155,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
