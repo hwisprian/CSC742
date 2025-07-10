@@ -48,7 +48,7 @@ def assign_items_to_bins(self, item_weights):
 
         for bin_id in bin_ids:
             # if we have not reached max weight for a box after adding the next item...
-            if bins[bin_id].get_total_weight() + weight <= MAX_BOX_WEIGHT:
+            if bins[bin_id].get_total_weight() + weight <= chromosome.MAX_BOX_WEIGHT:
                 # Add the box id assigned to the list of bin assignments.
                 self.bin_assignments.append(bin_id)
                 # throw the item in the box!
