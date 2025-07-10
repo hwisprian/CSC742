@@ -1,4 +1,3 @@
-import pytest
 import copy
 from AS3 import chromosome
 
@@ -20,9 +19,11 @@ chrom_3.items.append(chromosome.Item(2, 2, .9))
 chrom_3.items.append(chromosome.Item(3, 0, 1.9))
 chrom_3.items.append(chromosome.Item(4, 1, .3))
 
+
 def test_bin_assignments():
-    assert chrom_5.bin_assignments() == [0,1,2,3,4]
-    assert chrom_3.bin_assignments() == [0,1,2,0,1]
+    assert chrom_5.bin_assignments() == [0, 1, 2, 3, 4]
+    assert chrom_3.bin_assignments() == [0, 1, 2, 0, 1]
+
 
 def test_get_total_weight():
     test_chrom = copy.deepcopy(chrom_5)
@@ -30,9 +31,11 @@ def test_get_total_weight():
     test_chrom.items[0].weight += chromosome.MAX_BOX_WEIGHT
     assert test_chrom.get_total_weight() == 14.7
 
+
 def test_get_number_of_bins_used():
     assert chrom_5.get_number_of_bins_used() == 5
     assert 0 <= chrom_5_random.get_number_of_bins_used() <= 5
+
 
 def test_get_constraint_violation():
     test_chrom = copy.deepcopy(chrom_5)
@@ -47,10 +50,12 @@ def test_get_constraint_violation():
         item.weight += chromosome.MAX_BOX_WEIGHT
     assert test_chrom.get_constraint_violation() == 5
 
+
 def test_get_mutation_probability():
-    assert chrom_5.get_mutation_probability() == .2 # has 5 boxes!
-    assert chrom_5_random.get_mutation_probability() >= .2 # will have 5 or less boxes.
-    assert chromosome.Chromosome(100).get_mutation_probability() >= .01  # will have 100 or less boxes.
+    assert chrom_5.get_mutation_probability() == .2   # has 5 boxes!
+    assert chrom_5_random.get_mutation_probability() >= .2   # will have 5 or less boxes.
+    assert chromosome.Chromosome(100).get_mutation_probability() >= .01   # will have 100 or less boxes.
+
 
 def test_tournament_selection():
     assert chromosome.tournament_selection(chrom_5, chrom_3) == chrom_3
@@ -75,6 +80,7 @@ def test_tournament_selection():
     assert chromosome.tournament_selection(test_chrom2, test_chrom) == test_chrom
     assert chromosome.tournament_selection(test_chrom, test_chrom2) == test_chrom
 
+
 def test_crossover():
     test_chrom = copy.deepcopy(chrom_5)
     test_chrom2 = chromosome.Chromosome(5)
@@ -93,6 +99,7 @@ def test_crossover():
     print("Crossover Offspring:", offspring)
     assert offspring[0].items != test_chrom.items
     assert offspring[1].items != test_chrom.items
+
 
 def test_mutate():
     test_chrom = copy.deepcopy(chrom_5)
