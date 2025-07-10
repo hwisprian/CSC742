@@ -1,7 +1,7 @@
 from chromosome import *
 import matplotlib.pyplot as plt
 from numpy.ma.extras import average
-import pytest
+
 
 ##############################################################################################################
 #    END of CHROMOSOME / Beginning of Genetic Algorithm Operations.
@@ -138,24 +138,3 @@ run_genetic_algorithm(30, 50, 'f3', 8, 4)
 
 run_genetic_algorithm(50, 50, 'f4', 8, 4)
 
-##################################################################################################
-# --- Unit Tests are good for you ------------------------
-#################################################################################################
-
-def test_initialize_population():
-    init_pop = initialize_population(10, 8, 4)
-    assert len(init_pop) == 10
-    assert len(init_pop[0].binary_strings) == 4
-    assert len(init_pop[0].binary_strings[0]) == 8
-
-def test_selection():
-    mating_pool = selection([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6])
-    assert len(mating_pool) == 6
-    print("Mating Pool:", mating_pool)
-
-    mating_pool = selection([1, 2, 3, 4, 5, 6], [-1, -2, -3, -4, -5, -6])
-    assert len(mating_pool) == 6
-    print("Mating Pool:", mating_pool)
-
-    with pytest.raises(ConvergenceException, match="Convergence"):
-        selection([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])

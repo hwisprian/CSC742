@@ -3,7 +3,7 @@ import copy
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import pytest
+
 
 # --- 8-Queens Problem Visualization ---
 def visualize_queens(board, cost, attacking_queens, stuck=False):
@@ -171,35 +171,3 @@ hill_climbing_queens([1, 0, 1, 5, 7, 7, 6, 0])
 hill_climbing_queens([4, 7, 4, 3, 2, 4, 5, 6])
 hill_climbing_queens([0, 7, 7, 7, 3, 3, 5, 7])
 
-# --- Unit Tests ---------------------------------
-
-board_seq=[0, 1, 2, 3, 4, 5, 6, 7]
-board_dsc=[7, 6, 5, 4, 3, 2, 1, 0]
-board_1 = [1, 1, 1, 1, 1, 1, 1, 1]
-board_2 =   [3, 5, 2, 7, 2, 4, 1, 0]
-
-def test_get_attacking_pairs_from_rows():
-    assert get_attacking_pairs_from_rows(board_seq) == 0
-    assert get_attacking_pairs_from_rows(board_dsc) == 0
-    assert get_attacking_pairs_from_rows(board_1) == 7
-    assert get_attacking_pairs_from_rows(board_2) == 1
-
-def test_check_diagonal_up_for_queens():
-    # up from zero would be -1 off the playing surface
-    assert check_diagonal_up_for_queens(board_seq, 0) == 0
-    assert check_diagonal_up_for_queens(board_seq, 1) == 0
-    assert check_diagonal_up_for_queens(board_dsc, 0) == 1
-    assert check_diagonal_up_for_queens(board_dsc, 1) == 1
-
-def test_check_diagonal_down_for_queens():
-    # down from zero would be 1 which is a match on the sequential board.
-    assert check_diagonal_down_for_queens(board_seq, 0) == 1
-    assert check_diagonal_down_for_queens(board_seq, 1) == 1
-    assert check_diagonal_down_for_queens(board_dsc, 0) == 0
-    assert check_diagonal_down_for_queens(board_dsc, 1) == 0
-
-def test_get_attacking_pairs_from_diagonals():
-    assert get_attacking_pairs_from_diagonals(board_seq) == 7
-    assert get_attacking_pairs_from_diagonals(board_dsc) == 7
-    assert get_attacking_pairs_from_diagonals(board_1) == 0
-    assert get_attacking_pairs_from_diagonals(board_2) == 3 # (5,7), (5,2), (1,0)

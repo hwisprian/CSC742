@@ -1,5 +1,6 @@
 flake8
 matplotlib
+matplotlib.pyplot
 pytest
 pytest-cov
 seaborn

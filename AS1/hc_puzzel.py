@@ -1,8 +1,6 @@
 import random
 import copy
 import matplotlib.pyplot as plt
-import pytest
-#import seaborn as sns
 import numpy as np
 
 # --- 8-Puzzle Visualization ---
