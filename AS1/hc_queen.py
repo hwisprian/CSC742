@@ -103,7 +103,7 @@ def check_diagonal_down_for_queens(board, current_col):
     return 0
 
 
-#Q1-3 get a list of neighbor states moving one queen (column) at a time.
+# Q1-3 get a list of neighbor states moving one queen (column) at a time.
 def get_possible_neighbors(board, col):
     neighbors = []
     current_row = board[col]
@@ -115,7 +115,7 @@ def get_possible_neighbors(board, col):
     return neighbors
 
 
-#Q1-4 climb down the hill one step by moving one queen column by column
+# Q1-4 climb down the hill one step by moving one queen column by column
 def take_one_step(board, col):
     #print("taking a step to a new neighbor column:", col)
     # get the current attacking queens score.
@@ -133,7 +133,7 @@ def take_one_step(board, col):
     return board
 
 
-#Q1-4 Hill climbing algorithm
+# Q1-4 Hill climbing algorithm
 def hill_climbing_queens(board):
     cost = 0
     last_board = board
