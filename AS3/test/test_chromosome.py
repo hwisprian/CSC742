@@ -1,6 +1,6 @@
 import pytest
 import copy
-import chromosome
+from AS3 import chromosome
 
 ############################################################################################
 #                              PyTests with smol order numbers

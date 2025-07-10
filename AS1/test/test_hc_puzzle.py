@@ -1,6 +1,6 @@
 import pytest
-import hc_puzzel
-from hc_puzzel import goal_state, generate_8_puzzle_instance, one_off, three_off, gets_stuck
+from AS1 import hc_puzzel
+from AS1.hc_puzzel import goal_state, generate_8_puzzle_instance, one_off, three_off, gets_stuck
 
 
 # --- Unit Tests because I love them ---

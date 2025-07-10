@@ -1,8 +1,8 @@
 import pytest
 import main
 import math
-from chromosome import Chromosome
-from main import ConvergenceException
+from AS2.chromosome import Chromosome
+from AS2.main import ConvergenceException
 
 
 ##################################################################################################

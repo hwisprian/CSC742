@@ -1,5 +1,5 @@
 import pytest
-import hc_queen
+from AS1 import hc_queen
 
 # --- Unit Tsts ---------------------------------
 
