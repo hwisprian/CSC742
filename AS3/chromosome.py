@@ -7,6 +7,7 @@ MAX_BOX_WEIGHT = 10.0  # in kg
 MAX_ITEM_WEIGHT = 2.0  # in kg
 MIN_ITEM_WEIGHT = 0.1  # avoid exact 0 for realism
 
+
 ############################################################################################################
 #                                   Problem domain
 ##########################################################################################################
@@ -20,6 +21,7 @@ class Item:
 
     def __repr__(self):
         return f"Item(box_id={self.box_id}, weight={self.weight}) \n"
+
 
 # a chromosome that has a list of items that know what box they are packed in.
 class Chromosome:
@@ -35,16 +37,14 @@ class Chromosome:
     def __repr__(self):
         return (f"Chromosome(bins_used={self.get_number_of_bins_used()}, total_weight={self.get_total_weight()}, "
                 f"generation={self.generation}, bin_assignments={self.bin_assignments()})")
-                #f"generation={self.generation}, items={sorted(self.items, key=lambda i: i.box_id)})")
 
     # Q 1.4 a function to generate a random population
     def randomly_assign_items_to_bins(self, item_weights):
         # loop through the items and put them in a box.
         # worst case we will get 1 item per box
         item_id = 0
-        bins = {}
         for weight in item_weights:
-            bin_id = random.randint(0, len(item_weights) -1)
+            bin_id = random.randint(0, len(item_weights) - 1)
             item = Item(item_id, bin_id, weight)
             self.items.append(item)
             item_id += 1
@@ -80,7 +80,7 @@ class Chromosome:
         if violation_count == 0:
             return 0
         if violation_count < self.get_number_of_bins_used():
-            #print("constraint violation", violation_count, "boxes over 10kg")
+            # print("constraint violation", violation_count, "boxes over 10kg")
             return 1
         return self.get_number_of_bins_used()
 
@@ -99,18 +99,17 @@ class Chromosome:
         offspring_1 = Chromosome(0, gen_number)
         offspring_2 = Chromosome(0, gen_number)
 
-        all_items = [self.items, other_parent.items]
-        #print("crossing over:",  all_items)
+        # print("crossing over:",  all_items)
 
         # create random crossover points that exist on both chromosomes
         crossover_points = sorted(random.sample(range(len(self.items)-1), number_of_points))
-        #print("crossoverpoints:", crossover_points)
+        # print("crossoverpoints:", crossover_points)
         for i in range(len(self.items)):
             item1 = copy.deepcopy(self.items[i])
             item2 = copy.deepcopy(other_parent.items[i])
 
             if (i < crossover_points[0] or
-                    (len(crossover_points) > 1 and  i >= crossover_points[1])):
+                    (len(crossover_points) > 1 and i >= crossover_points[1])):
                 # copy the gene as is.
                 offspring_1.items.append(item1)
                 offspring_2.items.append(item2)
@@ -135,10 +134,12 @@ class Chromosome:
                 if item.box_id != new_box_id:
                     item.box_id = new_box_id
 
+
 # Q 1.4 Function to generate random initial population of items by their weights
 # their weight being a random number between min and max weights
 def generate_random_item_weights(num_items):
     return [round(random.uniform(MIN_ITEM_WEIGHT, MAX_ITEM_WEIGHT), 1) for _ in range(num_items)]
+
 
 # Q1.4 Function to create initial population
 def generate_initial_population(pop_size, num_items):
@@ -146,6 +147,7 @@ def generate_initial_population(pop_size, num_items):
     for _ in range(pop_size):
         population.append(Chromosome(num_items))
     return population
+
 
 ################################################################################################
 #                            Q 3 Genetic Algorithm.
@@ -169,6 +171,7 @@ def tournament_selection(parent_1, parent_2):
 #                        Genetic Algorithm Over various generations and populations...
 #######################################################################################################################
 
+
 # Q 4.1 Run the genetic algorithm for 50 generations with a population of 20
 # with a variable number of orders [10, 25, 50, 100]
 def run_genetic_algorithm(number_generations=50, population=20, number_orders=10, crossover_points=1):
@@ -181,7 +184,7 @@ def run_genetic_algorithm(number_generations=50, population=20, number_orders=10
     # plot points is an array lists of points to plot
     #   first list is the best fitness for the generation
     #   second list is the average fitness for the generation
-    plot_points = [[],[]]
+    plot_points = [[], []]
 
     for i in range(number_generations):
         generation = reproduce(generation, crossover_points, i)
@@ -219,6 +222,7 @@ def reproduce(population, crossover_points, gen_number):
             next_generation.extend(offspring)
     return next_generation
 
+
 def build_mating_pool(population):
     mating_pool = []
     while len(mating_pool) < len(population):
@@ -229,7 +233,8 @@ def build_mating_pool(population):
         mating_pool.append(tournament_selection(parent_1, parent_2))
     return mating_pool
 
-#Q4.3 Plot best fitness and average fitness per generation for each function
+
+# Q4.3 Plot best fitness and average fitness per generation for each function
 def plot_fitness(population, number_generations, best_chromosome, number_orders, crossover_points, plot_points):
     xdata = list(range(len(plot_points[0])))
     # Create the plot
@@ -242,7 +247,8 @@ def plot_fitness(population, number_generations, best_chromosome, number_orders,
     # Add labels and title
     plt.xlabel("Generation")
     plt.ylabel("Fitness (y)")
-    plt.title(f"Plot of Pop size {population} for {number_generations} Generations for {number_orders} items and {crossover_points} crossover points")
+    plt.title(f"Plot of Pop size {population} for {number_generations} "
+              f"Generations for {number_orders} items and {crossover_points} crossover points")
     print(f"Best Solution: {best_chromosome}")
 
     # Display the plot

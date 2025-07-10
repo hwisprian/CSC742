@@ -1,4 +1,4 @@
-from chromosome import *
+from chromosome import run_genetic_algorithm
 
 if __name__ == '__main__':
     # Q 4.1
