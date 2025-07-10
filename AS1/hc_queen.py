@@ -162,7 +162,7 @@ def main():
         print("Run:", i + 1)
         initial_queens = generate_8_queens_instance()
         hill_climbing_queens(initial_queens)
-    
+
     # double check boards from paper
     print("checking starts from assignment paper:")
     hill_climbing_queens([4, 6, 0, 1, 2, 0, 4, 1])

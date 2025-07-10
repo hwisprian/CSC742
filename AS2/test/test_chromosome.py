@@ -1,5 +1,5 @@
 import pytest
-import main
+from AS2 import main
 import math
 from AS2.chromosome import Chromosome
 from AS2.main import ConvergenceException
