@@ -34,6 +34,7 @@ def visualize_queens(board, cost, attacking_queens, stuck=False):
 def generate_8_queens_instance():
     return [random.randint(0, 7) for _ in range(8)]
 
+
 # Q1-2: A heuristic function that computes the number of pairs of queens that are attacking each other.
 def queens_heuristic(board):
     attacking_pairs = 0
@@ -43,6 +44,7 @@ def queens_heuristic(board):
     # check diagonals
     attacking_pairs += get_attacking_pairs_from_diagonals(board)
     return attacking_pairs
+
 
 # Q1-2 calculate attacking pairs by row
 def get_attacking_pairs_from_rows(board):
@@ -58,6 +60,7 @@ def get_attacking_pairs_from_rows(board):
         seen_rows.append(row_value)
     return attacking_pairs
 
+
 # Q1-2 calculate attacking pairs by diagonal
 def get_attacking_pairs_from_diagonals(board):
     attacking_pairs = 0
@@ -65,6 +68,7 @@ def get_attacking_pairs_from_diagonals(board):
         attacking_pairs += check_diagonal_down_for_queens(board, col)
         attacking_pairs += check_diagonal_up_for_queens(board, col)
     return attacking_pairs
+
 
 ## there is probably some fancy lambda that would make this shorter, but this works and I understand it.
 def check_diagonal_up_for_queens(board, current_col):
@@ -98,6 +102,7 @@ def check_diagonal_down_for_queens(board, current_col):
             return 1
     return 0
 
+
 #Q1-3 get a list of neighbor states moving one queen (column) at a time.
 def get_possible_neighbors(board, col):
     neighbors = []
@@ -108,6 +113,7 @@ def get_possible_neighbors(board, col):
             neighbor_state[col] = row
             neighbors.append(neighbor_state)
     return neighbors
+
 
 #Q1-4 climb down the hill one step by moving one queen column by column
 def take_one_step(board, col):
@@ -125,6 +131,7 @@ def take_one_step(board, col):
         if attacking_queens < current_attacking :
             return n
     return board
+
 
 #Q1-4 Hill climbing algorithm
 def hill_climbing_queens(board):
@@ -170,6 +177,7 @@ def main():
     hill_climbing_queens([1, 0, 1, 5, 7, 7, 6, 0])
     hill_climbing_queens([4, 7, 4, 3, 2, 4, 5, 6])
     hill_climbing_queens([0, 7, 7, 7, 3, 3, 5, 7])
+
 
 if __name__ == "__main__":
     main()

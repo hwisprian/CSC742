@@ -3,6 +3,7 @@ import copy
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 # --- 8-Puzzle Visualization ---
 def visualize_8_puzzle(board, cost, stuck=False, won=False):
     fig, ax = plt.subplots()
@@ -30,6 +31,7 @@ def visualize_8_puzzle(board, cost, stuck=False, won=False):
 # --- 8-Puzzle Algorithm ---
 goal_state = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 
+
 def generate_8_puzzle_instance(moves=20):
     def move_empty_tile(state_in):
         return random.choice(get_valid_neighbor_states(state_in))
@@ -38,6 +40,7 @@ def generate_8_puzzle_instance(moves=20):
     for _ in range(moves):
         state = move_empty_tile(state)
     return state
+
 
 # Q1-1:  A heuristic function that calculates the number of misplaced tiles.
 def puzzle_heuristic(state):
@@ -48,6 +51,7 @@ def puzzle_heuristic(state):
             if state[i][j] != goal_state[i][j]:
                 misplaced += 1
     return misplaced
+
 
 #Q1-2: A function to generate all valid neighbor states from the current configuration.
 def get_valid_neighbor_states(state) :
@@ -62,6 +66,7 @@ def get_valid_neighbor_states(state) :
         neighbors.append(neighbor_state)
         #print("appended neighbor:", neighbors)
     return neighbors
+
 
 #Q1-3 take a step down the hill
 def take_one_step(state):
@@ -79,6 +84,7 @@ def take_one_step(state):
             if misplaced < current_misplaced :
                 return n
     raise Exception("Stuck at local min!")
+
 
 #Q1-3 take a step down the hill by checking the count of misplaced tiles for each neighbor state
 # and picking one with a lower value if available. (I realized when I was answering the questions
@@ -108,6 +114,7 @@ def take_one_step_steepest(state):
         return random.choice(neighbors_by_misplaced_score.get(low_score))
     raise Exception("Stuck at local min!")
 
+
 #Q1-3 - take a step down the hill by checking the count of misplaced tiles for each neighbor state
 # and picking the first one with a lower value if available.
 # Q1-4 - visualize the state after each step.
@@ -131,6 +138,7 @@ one_off = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 three_off = [[1, 5, 3], [4, 0, 6], [7, 2, 8]]
 gets_stuck = [[1, 0, 5], [7, 3, 2], [8, 4, 6]]
 
+
 def main():
     # Q2-1 & Q2-2 Run with easy solve!
     hill_climbing_puzzle([[1, 5, 2], [4, 0, 3], [7, 8, 6]])
@@ -141,6 +149,7 @@ def main():
     # Run with random initial puzzle.
     initial_puzzle = generate_8_puzzle_instance()
     hill_climbing_puzzle(initial_puzzle)
+
 
 if __name__ == "__main__":
     main()
