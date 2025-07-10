@@ -1,4 +1,4 @@
-from chromosome import *
+from AS2.chromosome import *
 import matplotlib.pyplot as plt
 from numpy.ma.extras import average
 
