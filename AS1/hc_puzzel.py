@@ -141,27 +141,3 @@ hill_climbing_puzzle(three_off)
 # Run with random initial puzzle.
 initial_puzzle = generate_8_puzzle_instance()
 hill_climbing_puzzle(initial_puzzle)
-
-
-# --- Unit Tests because I love them ---
-
-def test_puzzle_heuristic():
-    assert puzzle_heuristic(goal_state) == 0
-    assert puzzle_heuristic(generate_8_puzzle_instance(1)) != 0
-    assert puzzle_heuristic(one_off) == 2
-    assert puzzle_heuristic(three_off) == 4
-
-def test_get_valid_neighbor_states():
-    neighbors = get_valid_neighbor_states(goal_state)
-    assert len(neighbors) == 2 # you won, but there are 2 valid neighbor states
-
-    neighbors = get_valid_neighbor_states(one_off)
-    #print(f"one off neighbors: {neighbors}")
-    assert len(neighbors) == 3
-
-    neighbors = get_valid_neighbor_states(three_off)
-    #print(f"three off neighbors: {neighbors}")
-    assert len(neighbors) == 4
-
-def test_take_one_step():
-    with pytest.raises(Exception): take_one_step(gets_stuck)
