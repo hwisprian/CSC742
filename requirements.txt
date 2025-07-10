@@ -1,0 +1,5 @@
+pylint
+matplotlib
+pytest
+seaborn
+numpy
