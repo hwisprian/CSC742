@@ -127,17 +127,20 @@ def hill_climbing_puzzle(state):
             break
 
 # --- Running and Visualizing 8-Puzzle ---
-
 one_off = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 three_off = [[1, 5, 3], [4, 0, 6], [7, 2, 8]]
 gets_stuck = [[1, 0, 5], [7, 3, 2], [8, 4, 6]]
 
-# Q2-1 & Q2-2 Run with easy solve!
-hill_climbing_puzzle([[1, 5, 2], [4, 0, 3], [7, 8, 6]])
+def main():
+    # Q2-1 & Q2-2 Run with easy solve!
+    hill_climbing_puzzle([[1, 5, 2], [4, 0, 3], [7, 8, 6]])
 
-# Q2-2 Run that gets stuck at local min
-hill_climbing_puzzle(three_off)
+    # Q2-2 Run that gets stuck at local min
+    hill_climbing_puzzle(three_off)
 
-# Run with random initial puzzle.
-initial_puzzle = generate_8_puzzle_instance()
-hill_climbing_puzzle(initial_puzzle)
+    # Run with random initial puzzle.
+    initial_puzzle = generate_8_puzzle_instance()
+    hill_climbing_puzzle(initial_puzzle)
+
+if __name__ == "__main__":
+    main()

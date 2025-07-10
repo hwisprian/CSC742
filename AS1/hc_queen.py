@@ -155,19 +155,21 @@ def hill_climbing_queens(board):
 
 
 # --- Running and Visualizing 8-Queens ---
+def main():
+    # Q2-1 Run with a random initial state 5 times.
+    print("run 5 random starts:")
+    for i in range(5) :
+        print("Run:", i + 1)
+        initial_queens = generate_8_queens_instance()
+        hill_climbing_queens(initial_queens)
+    
+    # double check boards from paper
+    print("checking starts from assignment paper:")
+    hill_climbing_queens([4, 6, 0, 1, 2, 0, 4, 1])
+    hill_climbing_queens([7, 6, 7, 2, 2, 5, 3, 2])
+    hill_climbing_queens([1, 0, 1, 5, 7, 7, 6, 0])
+    hill_climbing_queens([4, 7, 4, 3, 2, 4, 5, 6])
+    hill_climbing_queens([0, 7, 7, 7, 3, 3, 5, 7])
 
-# Q2-1 Run with a random initial state 5 times.
-print("run 5 random starts:")
-for i in range(5) :
-    print("Run:", i + 1)
-    initial_queens = generate_8_queens_instance()
-    hill_climbing_queens(initial_queens)
-
-# double check boards from paper
-print("checking starts from assignment paper:")
-hill_climbing_queens([4, 6, 0, 1, 2, 0, 4, 1])
-hill_climbing_queens([7, 6, 7, 2, 2, 5, 3, 2])
-hill_climbing_queens([1, 0, 1, 5, 7, 7, 6, 0])
-hill_climbing_queens([4, 7, 4, 3, 2, 4, 5, 6])
-hill_climbing_queens([0, 7, 7, 7, 3, 3, 5, 7])
-
+if __name__ == "__main__":
+    main()
